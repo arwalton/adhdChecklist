@@ -1,4 +1,4 @@
-import { ProgressViewIOSComponent, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 
 /**
  * props:
@@ -12,21 +12,52 @@ import { ProgressViewIOSComponent, StyleSheet, Text, View } from 'react-native';
  *     }
 */
 export default RoutineCard = (props) => {
-    console.log("props", props)
-    console.log("props.routine", props.routine)
+    const name = props.routine.name
+    const steps = props.routine.steps
+
+    const stepJsx = steps.map((step, index)=> {
+        return <Text>{
+            index + ": " + step.title + "\n" +
+            "duration: " + step.duration
+            }</Text>
+    })
+
     return (
         <View style={styles.container}>
-            <Text>{props.routine.item.name}</Text>
+            <View style={styles.name}>
+                <Text>{name}</Text>
+            </View>
+            <View style={styles.viewButton}>
+
+            </View>
+            
+            <View style={styles.start}>
+
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: .3,
-        borderColor: 'red',
-        borderWidth: 1,
-        justifyContent: 'space-between'
-
+        flex: 1,
+        flexDirection: "row",
+        width: Dimensions.get("window").width * .95,
+        height: 70
+    },
+    name: {
+        flex: 6,
+        borderColor: 'blue',
+        borderWidth: 2,
+    },
+    viewButton: {
+        flex: 3,
+        borderColor: 'green',
+        borderWidth: 2,
+    },
+    start: {
+        flex: 3,
+        borderColor: 'yellow',
+        borderWidth: 2,
     }
 })

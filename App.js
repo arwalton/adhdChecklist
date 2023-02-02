@@ -1,10 +1,13 @@
 import { StatusBar } from 'expo-status-bar';
 import { 
   FlatList,
+  SafeAreaView,
   StyleSheet,
   Text,
   View } from 'react-native';
 import RoutineCard from './components/RoutineCard';
+import SafeViewAndroid from './helpers/SafeViewAndroid';
+import TitleText from './components/TitleText';
 
 const dummyData = {
   "routines": [
@@ -43,27 +46,22 @@ const dummyData = {
 
 export default function App() {
 
-  const routineCardJsx = dummyData.routines.map((routine, index) => {
-    return <RoutineCard
-      routine={routine}
-      key={"routine" + index}/>
-  })
-
   return (
-    <View style={styles.container}>
-      <Text>Your Routines</Text>
-      <FlatList
-        data={dummyData.routines}
-        renderItem={(routine, index) => (
-          <RoutineCard
-            routine={routine}
-            key={"routine" + index}
-          />
-        )}
-      />
-      <Text>Is this working?</Text>
-      <StatusBar style="auto" />
-    </View>
+    <SafeAreaView style={SafeViewAndroid.DroidSafeArea}>
+      <View style={styles.container}>
+        <TitleText>Your Routines</TitleText>
+        <FlatList
+          data={dummyData.routines}
+          renderItem={(routine, index) => (
+            <RoutineCard
+              routine={routine.item}
+              key={"routine" + index}
+            />
+          )}
+        />
+        <StatusBar style="auto" />
+      </View>
+    </SafeAreaView>
   );
 }
 
@@ -73,6 +71,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: 10
   },
 });
