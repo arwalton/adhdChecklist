@@ -59,8 +59,8 @@ export default function App() {
             />
           )}
         />
-        <StatusBar style="auto" />
       </View>
+      <StatusBar style="light" />
     </SafeAreaView>
   );
 }
@@ -68,7 +68,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#2f4f4f',
     alignItems: 'center',
     justifyContent: 'center',
   },

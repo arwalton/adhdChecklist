@@ -25,7 +25,7 @@ export default RoutineCard = (props) => {
     return (
         <View style={styles.container}>
             <View style={styles.name}>
-                <Text>{name}</Text>
+                <Text style={styles.nameText}>{name}</Text>
             </View>
             <View style={styles.viewButton}>
 
@@ -49,6 +49,10 @@ const styles = StyleSheet.create({
         flex: 6,
         borderColor: 'blue',
         borderWidth: 2,
+    },
+    nameText: {
+        fontFamily: "Roboto",
+        fontWeight:"800",
     },
     viewButton: {
         flex: 3,
