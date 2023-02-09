@@ -1,13 +1,12 @@
-import { Dimensions, StyleSheet, Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
 /**
  * props:
  * routine = {"name": "foo",
  *      "steps":[
  *         {"title": "bar",
- *          "duration": 300},
- *          {"title": "baz",
- *          "duration": 600}
+ *          "duration": 300}
  *       ]
  *     }
 */
@@ -24,15 +23,18 @@ export default RoutineCard = (props) => {
 
     return (
         <View style={styles.container}>
-            <View style={styles.name}>
+            <View style={styles.nameContainer}>
                 <Text style={styles.nameText}>{name}</Text>
             </View>
-            <View style={styles.viewButton}>
+            <View style={styles.viewButtonContainer}>
 
             </View>
             
-            <View style={styles.start}>
-
+            <View style={styles.startContainer}>
+                <TouchableOpacity
+                onPress={()=>{console.log("The play button was clicked on " + name)}}>
+                    <Ionicons name="play" size={50} color="#BAFF29" />
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -42,26 +44,34 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         flexDirection: "row",
-        width: Dimensions.get("window").width * .95,
-        height: 70
+        height: 70,
+        marginBottom: 5,
+        paddingBottom: 5,
+        borderBottomColor: "#0D0221",
+        borderBottomWidth: 3,
     },
-    name: {
+    nameContainer: {
         flex: 6,
-        borderColor: 'blue',
-        borderWidth: 2,
+        borderColor: '#0D0221',
+        borderRightWidth: 2,
     },
     nameText: {
         fontFamily: "Roboto",
         fontWeight:"800",
+        fontSize: 20,
+        color: "#F1FFE7",
     },
-    viewButton: {
+    viewButtonContainer: {
         flex: 3,
-        borderColor: 'green',
-        borderWidth: 2,
+        borderRightWidth: 2,
+        borderRightColor: "#0D0221",
     },
-    start: {
+    startContainer: {
         flex: 3,
-        borderColor: 'yellow',
-        borderWidth: 2,
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    playButton: {
+        fontSize: 40,
     }
 })

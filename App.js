@@ -1,13 +1,16 @@
 import { StatusBar } from 'expo-status-bar';
 import { 
+  Dimensions,
   FlatList,
   SafeAreaView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View } from 'react-native';
 import RoutineCard from './components/RoutineCard';
 import SafeViewAndroid from './helpers/SafeViewAndroid';
 import TitleText from './components/TitleText';
+import { Ionicons } from '@expo/vector-icons';
 
 const dummyData = {
   "routines": [
@@ -51,6 +54,7 @@ export default function App() {
       <View style={styles.container}>
         <TitleText>Your Routines</TitleText>
         <FlatList
+          style={styles.list}
           data={dummyData.routines}
           renderItem={(routine, index) => (
             <RoutineCard
@@ -59,6 +63,9 @@ export default function App() {
             />
           )}
         />
+        <TouchableOpacity style={styles.addContainer}>
+          <Ionicons name="add" size={70} color="#BAFF29" />
+        </TouchableOpacity>
       </View>
       <StatusBar style="light" />
     </SafeAreaView>
@@ -70,6 +77,15 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#2f4f4f',
     alignItems: 'center',
-    justifyContent: 'center',
+    paddingLeft: Dimensions.get("window").width * .025,
+    paddingRight: Dimensions.get("window").width * .025,
   },
+  addContainer: {
+    flexGrow: 1,
+    width: "100%",
+  },
+  list: {
+    flexGrow: 0,
+    width: "100%",
+  }
 });
