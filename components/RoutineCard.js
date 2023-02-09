@@ -32,7 +32,8 @@ export default RoutineCard = (props) => {
             
             <View style={styles.startContainer}>
                 <TouchableOpacity
-                onPress={()=>{console.log("The play button was clicked on " + name)}}>
+                    onPress={()=>{console.log("The play button was clicked on " + name)}}
+                >
                     <Ionicons name="play" size={50} color="#BAFF29" />
                 </TouchableOpacity>
             </View>
