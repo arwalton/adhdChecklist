@@ -14,13 +14,13 @@ const styles = StyleSheet.create({
         fontSize: 30,
         fontFamily: "Roboto",
         fontWeight: "800",
-        color: "white",
+        color: "#f1ffe7",
         paddingTop: 10,
         paddingBottom: 10,
         marginBottom: 10,
-        width: "95%",
-        borderBottomWidth: 2,
-        borderColor: "black",
-        textAlign: "center"
+        width: "100%",
+        borderBottomWidth: 4,
+        borderColor: "#0D0221",
+        textAlign: "center",
     }
 })
