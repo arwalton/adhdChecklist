@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native';
 
 /**
  * props:
@@ -10,9 +11,10 @@ import { Ionicons } from '@expo/vector-icons';
  *       ]
  *     }
 */
-export default RoutineCard = (props) => {
-    const name = props.routine.name
-    const steps = props.routine.steps
+export default RoutineCard = ({routine}) => {
+    const navigation = useNavigation();
+    const name = routine.name
+    const steps = routine.steps
 
     const stepJsx = steps.map((step, index)=> {
         return <Text>{
@@ -32,7 +34,11 @@ export default RoutineCard = (props) => {
             
             <View style={styles.startContainer}>
                 <TouchableOpacity
-                    onPress={()=>{console.log("The play button was clicked on " + name)}}
+                    onPress={()=>{
+                        navigation.navigate("Active Routine",{
+                            routineName: name
+                        });
+                    }}
                 >
                     <Ionicons name="play" size={50} color="#BAFF29" />
                 </TouchableOpacity>
