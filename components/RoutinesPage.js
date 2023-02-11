@@ -13,6 +13,7 @@ import TitleText from './TitleText';
 import { Ionicons } from '@expo/vector-icons';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
+import useRoutineStore from '../store/routineStore';
 
 // const dummyData = {
 //   "routines": [
@@ -53,7 +54,10 @@ const iconWidth = 70;
 
 export default RoutinesPage = ({navigation})=>{
 
-  const [routines, setRoutines] = useState([]);
+  const routines = useRoutineStore((state) => state.routines)
+  const setRoutines = useRoutineStore((state) => state.setRoutines)
+  const addRoutine = useRoutineStore((state) => state.addRoutine)
+  const removeRoutine = useRoutineStore((state) => state.removeRoutine)
   const { getItem, setItem } = useAsyncStorage("adhdChecklistRoutines");
 
   /**
@@ -80,23 +84,24 @@ export default RoutinesPage = ({navigation})=>{
    * routineToAdd should be a routine object
    * @param {{}}} routineToAdd 
    */
-  const addRoutine = (routineToAdd) => {
+  const addRoutineInStorage = (routineToAdd) => {
     const newRoutines = [...routines, routineToAdd];
     setRoutinesInStorage(newRoutines)
   }
 
-  /**
-   * Removes a routine from state and storage
-   * @param {String} routineName 
-   */
-  const removeRoutine = (routineName) => {
-    const newRoutines = routines.filter((routine)=> {
-      if(routine.name === routineToRemove.name){
-        return false
-      }
-    })
-    setRoutinesInStorage(newRoutines)
-  }
+    //Little issue with this function
+  // /**
+  //  * Removes a routine from state and storage
+  //  * @param {String} routineName 
+  //  */
+  // const removeRoutine = (routineName) => {
+  //   const newRoutines = routines.filter((routine)=> {
+  //     if(routine.name === routineName){
+  //       return false
+  //     }
+  //   })
+  //   setRoutinesInStorage(newRoutines)
+  // }
 
   useEffect(() => {
     getRoutinesFromStorage()
