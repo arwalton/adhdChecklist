@@ -49,6 +49,8 @@ import { useEffect, useState } from 'react';
 //   ]
 // }
 
+const iconWidth = 70;
+
 export default RoutinesPage = ({navigation})=>{
 
   const [routines, setRoutines] = useState([]);
@@ -102,7 +104,6 @@ export default RoutinesPage = ({navigation})=>{
 
   return (
       <View style={styles.container}>
-        <TitleText>Your Routines</TitleText>
         <FlatList
           style={styles.list}
           data={routines}
@@ -113,12 +114,14 @@ export default RoutinesPage = ({navigation})=>{
             />
           )}
         />
-        <TouchableOpacity
-          style={styles.addContainer}
-          onPress={()=>{navigation.navigate("Routine Editor")}}
-        >
-          <Ionicons name="add" size={70} color="#BAFF29" />
-        </TouchableOpacity>
+        <View style={styles.addContainer}>
+          <TouchableOpacity
+            style={styles.opacity}
+            onPress={()=>{navigation.navigate("Routine Editor")}}
+          >
+            <Ionicons name="add" size={iconWidth} color="#BAFF29" />
+          </TouchableOpacity>
+        </View>
       </View>
   );
 }
@@ -135,8 +138,12 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     width: "100%",
   },
+  opacity: {
+    width: iconWidth
+  },
   list: {
     flexGrow: 0,
     width: "100%",
+    marginTop: 10,
   }
 });
