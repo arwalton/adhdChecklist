@@ -36,7 +36,8 @@ export default RoutineCard = ({routine}) => {
                 <TouchableOpacity
                     onPress={()=>{
                         navigation.navigate("Active Routine",{
-                            routineName: name
+                            routineName: name,
+                            routineSteps: steps
                         });
                     }}
                 >

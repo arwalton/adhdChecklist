@@ -45,7 +45,7 @@ const useRoutineStore = create((set) => ({
      */
     updateRoutine: (routineToUpdate) => set((state) => ({
         routines: state.routines.map((routine) => {
-            if(routine.id === routineToUpdate.id){
+            if(routine.name === routineToUpdate.name){
                 return routineToUpdate
             }
             return routine
