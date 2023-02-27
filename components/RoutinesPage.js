@@ -65,7 +65,7 @@ export default RoutinesPage = ({navigation})=>{
    */
   const getRoutinesFromStorage = async () => {
     const routinesFromStorage = await getItem()
-    setRoutines(JSON.parse(routinesFromStorage).routines)
+    await setRoutines(JSON.parse(routinesFromStorage).routines)
   }
 
   /**
@@ -76,7 +76,7 @@ export default RoutinesPage = ({navigation})=>{
    */
   const setRoutinesInStorage = async (newRoutines) => {
     await setItem(JSON.stringify(newRoutines))
-    setRoutines(newRoutines)
+    await setRoutines(newRoutines)
   }
 
   /**
@@ -84,24 +84,19 @@ export default RoutinesPage = ({navigation})=>{
    * routineToAdd should be a routine object
    * @param {{}}} routineToAdd 
    */
-  const addRoutineInStorage = (routineToAdd) => {
-    const newRoutines = [...routines, routineToAdd];
-    setRoutinesInStorage(newRoutines)
+  const addRoutineInStorage = async (routineToAdd) => {
+    await addRoutine(routineToAdd)
+    await setRoutinesInStorage(routines)
   }
 
-    //Little issue with this function
-  // /**
-  //  * Removes a routine from state and storage
-  //  * @param {String} routineName 
-  //  */
-  // const removeRoutine = (routineName) => {
-  //   const newRoutines = routines.filter((routine)=> {
-  //     if(routine.name === routineName){
-  //       return false
-  //     }
-  //   })
-  //   setRoutinesInStorage(newRoutines)
-  // }
+  /**
+   * Removes a routine from state and storage
+   * @param {String} routineName 
+   */
+  const removeRoutineFromStorage = async (routineName) => {
+    await removeRoutine(routineName)
+    await setRoutinesInStorage(routines)
+  }
 
   useEffect(() => {
     getRoutinesFromStorage()
