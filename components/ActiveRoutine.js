@@ -7,26 +7,18 @@ import {
   View} from 'react-native';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import TitleText from './TitleText';
+import ActiveRoutineStep from './ActiveRoutineStep';
 
 export default ActiveRoutine = ({route, navigation}) => {
-    const {routineName, routineSteps} = route.params;
-    const [step, setStep] = useState(0)
+  const {routineName, routineSteps} = route.params;
+  const [step, setStep] = useState(0)
 
-     return (
-      <View style={styles.container}>
-        <TitleText>{routineName}</TitleText>
-        <CountdownCircleTimer
-          isPlaying
-          duration={7}
-          colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-          colorsTime={[7, 5, 2, 0]}
-          size={300}
-          strokeWidth={30}
-        >
-          {({ remainingTime }) => <Text>{remainingTime}</Text>}
-        </CountdownCircleTimer>
-      </View>
-    );
+  return (
+    <View style={styles.container}>
+      <TitleText>{routineName}</TitleText>
+      <ActiveRoutineStep step={routineSteps[0]} ></ActiveRoutineStep>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
