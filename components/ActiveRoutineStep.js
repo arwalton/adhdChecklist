@@ -8,7 +8,7 @@ import {
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import TitleText from './TitleText';
 
-export default ActiveRoutineStep = ({step}) => {
+export default ActiveRoutineStep = ({step, isPlaying}) => {
     const title = step.title;
     const duration = step.duration;
 
@@ -40,7 +40,7 @@ export default ActiveRoutineStep = ({step}) => {
         <View>
             <Text>{title}</Text>
             <CountdownCircleTimer
-            isPlaying
+            isPlaying={isPlaying}
             duration={duration}
             colors={['#51c251', '#bac24f', '#c93a42']}
             colorsTime={[duration, Math.floor(duration/2), 0]}
