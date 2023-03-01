@@ -8,7 +8,7 @@ import {
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 import TitleText from './TitleText';
 
-export default ActiveRoutineStep = ({step, isPlaying}) => {
+export default ActiveRoutineStep = ({step, isPlaying, timerKey}) => {
     const title = step.title;
     const duration = step.duration;
 
@@ -42,12 +42,13 @@ export default ActiveRoutineStep = ({step, isPlaying}) => {
             <CountdownCircleTimer
             isPlaying={isPlaying}
             duration={duration}
+            children={children()}
             colors={['#51c251', '#bac24f', '#c93a42']}
             colorsTime={[duration, Math.floor(duration/2), 0]}
+            key={timerKey}
+            onUpdate={onUpdate}
             size={Dimensions.get("window").width * .8}
             strokeWidth={30}
-            onUpdate={onUpdate}
-            children={children()}
             >
                 {({ remainingTime, color }) => {
                     const minutes = padNumber(Math.floor(remainingTime / 60))

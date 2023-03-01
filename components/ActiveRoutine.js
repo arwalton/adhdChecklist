@@ -6,49 +6,91 @@ import {
   Text,
   TouchableOpacity,
   View} from 'react-native';
-import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
+import { Ionicons } from '@expo/vector-icons';
 import TitleText from './TitleText';
 import ActiveRoutineStep from './ActiveRoutineStep';
+import TouchableIcon from './TouchableIcon';
 
 export default ActiveRoutine = ({route, navigation}) => {
   const {routineName, routineSteps} = route.params;
   const [step, setStep] = useState(0)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
 
   return (
     <View style={styles.container}>
       <TitleText>{routineName}</TitleText>
-      <ActiveRoutineStep step={routineSteps[step]} isPlaying={isPlaying}></ActiveRoutineStep>
-      <View>
+      <ActiveRoutineStep
+        step={routineSteps[step]}
+        isPlaying={isPlaying}
+        timerKey={step}
+      >
+      </ActiveRoutineStep>
+      <View style={styles.controlButtons}>
         <TouchableOpacity
           onPress={()=>{
             setIsPlaying(!isPlaying)
           }}
         >
-          <Text style={{fontSize: 20}}>{isPlaying ? "Pause" : "Play" }</Text>
+          {isPlaying ?
+          <TouchableIcon
+            name="pause"
+            size={50}
+            color="#6B9AC4"
+            text="Pause"
+          >
+          </TouchableIcon>
+          :
+          <TouchableIcon
+            name="play"
+            size={50}
+            color="#BAFF29"
+            text="Play"
+          >  
+          </TouchableIcon>
+          }
         </TouchableOpacity>
         <TouchableOpacity
           onPress={()=>{
             console.log("Stop button pushed")
           }}
         >
-          <Text style={{fontSize: 20}}>Stop</Text>
+          <TouchableIcon
+            name="stop"
+            size={50}
+            color="#E63946"
+            text="Stop"
+          > 
+          </TouchableIcon>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={()=>{
             console.log("Reset button pushed")
           }}>
-          <Text style={{fontSize: 20}}>Reset</Text>
+          <TouchableIcon
+            name="reload"
+            size={50}
+            color="#F9A03F"
+            text="Reload"
+            rotY="180deg"
+            rotZ="90deg"
+          >  
+          </TouchableIcon>
         </TouchableOpacity>
       </View>
-      <View>
+      <View style={styles.controlButtons}>
         <TouchableOpacity
           disabled={!Boolean(step)}
           onPress={()=>{
             setStep(step - 1)
           }}
         >
-          <Text style={{fontSize: 20}}>Back</Text>
+          <TouchableIcon
+            name="play-skip-back"
+            size={50}
+            color="#f1ffe7"
+            text="Back"
+          > 
+          </TouchableIcon>
         </TouchableOpacity>
         <TouchableOpacity
           disabled={step === routineSteps.length - 1}
@@ -56,7 +98,13 @@ export default ActiveRoutine = ({route, navigation}) => {
             setStep(step + 1)
           }}
         >
-          <Text style={{fontSize: 20}}>Forward</Text>
+          <TouchableIcon
+            name="play-skip-forward"
+            size={50}
+            color="#f1ffe7"
+            text="Forward"
+          > 
+          </TouchableIcon>
         </TouchableOpacity>
       </View>
     </View>
@@ -71,4 +119,11 @@ const styles = StyleSheet.create({
     paddingLeft: Dimensions.get("window").width * .025,
     paddingRight: Dimensions.get("window").width * .025,
   },
+  controlButtons: {
+    flex: .25,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingTop: 20,
+    width: "100%"
+  }
 })
