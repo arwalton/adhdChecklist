@@ -15,6 +15,7 @@ export default ActiveRoutine = ({route, navigation}) => {
   const {routineName, routineSteps} = route.params;
   const [step, setStep] = useState(0)
   const [isPlaying, setIsPlaying] = useState(true)
+  const [timerKey, setTimerKey] = useState(0)
 
   return (
     <View style={styles.container}>
@@ -22,10 +23,11 @@ export default ActiveRoutine = ({route, navigation}) => {
       <ActiveRoutineStep
         step={routineSteps[step]}
         isPlaying={isPlaying}
-        timerKey={step}
+        timerKey={timerKey}
       >
       </ActiveRoutineStep>
       <View style={styles.controlButtons}>
+        {/* Pause/Play button */}
         <TouchableOpacity
           onPress={()=>{
             setIsPlaying(!isPlaying)
@@ -49,9 +51,11 @@ export default ActiveRoutine = ({route, navigation}) => {
           </TouchableIcon>
           }
         </TouchableOpacity>
+        {/* Stop Button */}
         <TouchableOpacity
           onPress={()=>{
-            console.log("Stop button pushed")
+            setIsPlaying(false)
+            setTimerKey(timerKey + 1)
           }}
         >
           <TouchableIcon
@@ -62,15 +66,16 @@ export default ActiveRoutine = ({route, navigation}) => {
           > 
           </TouchableIcon>
         </TouchableOpacity>
+        {/* Reset button */}
         <TouchableOpacity
           onPress={()=>{
-            console.log("Reset button pushed")
+            setTimerKey(timerKey + 1)
           }}>
           <TouchableIcon
             name="reload"
             size={50}
             color="#F9A03F"
-            text="Reload"
+            text="Reset"
             rotY="180deg"
             rotZ="90deg"
           >  
@@ -78,6 +83,7 @@ export default ActiveRoutine = ({route, navigation}) => {
         </TouchableOpacity>
       </View>
       <View style={styles.controlButtons}>
+        {/* Back button */}
         <TouchableOpacity
           disabled={!Boolean(step)}
           onPress={()=>{
@@ -92,6 +98,7 @@ export default ActiveRoutine = ({route, navigation}) => {
           > 
           </TouchableIcon>
         </TouchableOpacity>
+        {/* Forward button */}
         <TouchableOpacity
           disabled={step === routineSteps.length - 1}
           onPress={()=>{

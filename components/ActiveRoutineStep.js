@@ -49,6 +49,7 @@ export default ActiveRoutineStep = ({step, isPlaying, timerKey}) => {
             onUpdate={onUpdate}
             size={Dimensions.get("window").width * .8}
             strokeWidth={30}
+            trailColor="#f1ffe7"
             >
                 {({ remainingTime, color }) => {
                     const minutes = padNumber(Math.floor(remainingTime / 60))
