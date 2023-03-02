@@ -88,7 +88,9 @@ export default ActiveRoutine = ({route, navigation}) => {
           disabled={!Boolean(step)}
           onPress={()=>{
             setStep(step - 1)
+            setTimerKey(timerKey + 1)
           }}
+          style={!Boolean(step) ? styles.disabled : {}}
         >
           <TouchableIcon
             name="play-skip-back"
@@ -103,12 +105,14 @@ export default ActiveRoutine = ({route, navigation}) => {
           disabled={step === routineSteps.length - 1}
           onPress={()=>{
             setStep(step + 1)
+            setTimerKey(timerKey + 1)
           }}
+          style={step === routineSteps.length -1 ? styles.disabled : {}}
         >
           <TouchableIcon
             name="play-skip-forward"
             size={50}
-            color="#f1ffe7"
+            color={"#f1ffe7"}
             text="Forward"
           > 
           </TouchableIcon>
@@ -132,5 +136,8 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     paddingTop: 20,
     width: "100%"
+  },
+  disabled: {
+    opacity: .2
   }
 })
