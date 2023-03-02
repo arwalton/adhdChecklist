@@ -29,39 +29,47 @@ export default ActiveRoutineStep = ({step, isPlaying, timerKey}) => {
         }
     }
 
-    const children = (remainingTime) => {
-        const minutes = Math.floor(remainingTime / 60)
-        const seconds = remainingTime % 60
-      
-        return `${minutes}:${seconds}`
-    }
-
     return (
-        <View>
-            <Text>{title}</Text>
+        <View style={styles.container}>
             <CountdownCircleTimer
             isPlaying={isPlaying}
             duration={duration}
-            children={children()}
             colors={['#51c251', '#bac24f', '#c93a42']}
             colorsTime={[duration, Math.floor(duration/2), 0]}
             key={timerKey}
             onUpdate={onUpdate}
             size={Dimensions.get("window").width * .8}
-            strokeWidth={30}
-            trailStrokeWidth={25}
+            strokeWidth={20}
+            trailStrokeWidth={23}
             trailColor="#f1ffe7"
             >
                 {({ remainingTime, color }) => {
                     const minutes = padNumber(Math.floor(remainingTime / 60))
                     const seconds = padNumber(remainingTime % 60)
                     return(
-                    <Text style={{ color, fontSize: 40 }}>
-                        {minutes}:{seconds}
-                    </Text>
+                        <>
+                        <Text style={{...styles.childText, color}}>
+                            {title}
+                        </Text>
+                        <Text style={{ fontSize: 40, color }}>
+                            {minutes}:{seconds}
+                        </Text>
+                        </>
                     )
                 }}
             </CountdownCircleTimer>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    container: {
+        paddingTop: 20
+    },
+    childText: {
+        display: "flex",
+        fontSize: 30,
+        width: "80%",
+        textAlign: "center",
+    }
+})
