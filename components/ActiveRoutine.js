@@ -17,6 +17,15 @@ export default ActiveRoutine = ({route, navigation}) => {
   const [isPlaying, setIsPlaying] = useState(true)
   const [timerKey, setTimerKey] = useState(0)
 
+  const navigateRoutine = (shouldMoveForward) => {
+    if(shouldMoveForward && step !== routineSteps.length - 1){
+      setStep(step + 1)
+    }else if(!shouldMoveForward && step !== 0){
+      setStep(step - 1)
+    }
+    setTimerKey(timerKey + 1)
+  }
+
   return (
     <View style={styles.container}>
       <TitleText>{routineName}</TitleText>
@@ -24,6 +33,8 @@ export default ActiveRoutine = ({route, navigation}) => {
         step={routineSteps[step]}
         isPlaying={isPlaying}
         timerKey={timerKey}
+        navigateRoutine={navigateRoutine}
+        remainingSteps={routineSteps.length -1 - step}
       >
       </ActiveRoutineStep>
       <View style={styles.controlButtons}>
@@ -86,10 +97,7 @@ export default ActiveRoutine = ({route, navigation}) => {
         {/* Back button */}
         <TouchableOpacity
           disabled={!Boolean(step)}
-          onPress={()=>{
-            setStep(step - 1)
-            setTimerKey(timerKey + 1)
-          }}
+          onPress={() => navigateRoutine(false)}
           style={!Boolean(step) ? styles.disabled : {}}
         >
           <TouchableIcon
@@ -103,10 +111,7 @@ export default ActiveRoutine = ({route, navigation}) => {
         {/* Forward button */}
         <TouchableOpacity
           disabled={step === routineSteps.length - 1}
-          onPress={()=>{
-            setStep(step + 1)
-            setTimerKey(timerKey + 1)
-          }}
+          onPress={() => navigateRoutine(true)}
           style={step === routineSteps.length -1 ? styles.disabled : {}}
         >
           <TouchableIcon
