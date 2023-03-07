@@ -31,7 +31,7 @@ export default EditRoutineStep = ({
 
 const styles = StyleSheet.create({
     container: {
-        width: 300,
+        width: 250,
         padding: 10,
         marginRight: 10,
         backgroundColor: ""

@@ -11,6 +11,7 @@ import {
   View} from 'react-native';
 import TitleText from './TitleText';
 import EditRoutineStep from './EditRoutineStep';
+import { v4 as uuidv4 } from 'uuid';
 
 export default RoutineEditor = ({routine}) => {
 
@@ -29,6 +30,78 @@ export default RoutineEditor = ({routine}) => {
       }
       setTitleStorage(titleText)
     }, [])
+
+    const createStep = () => {
+      const uuid = uuidv4()
+      return(
+        {id: uuid, title: "Example Step", duration: 30}
+      )
+    }
+
+    /**
+     * Add a step before the selected step
+     */
+    const addBefore = () => {
+        const newStep = createStep()
+
+      if(steps.length === 0){
+        setSteps([newStep])
+        return;
+      }
+
+      const selectedIndex = steps.findIndex((step)=> {
+        return step.id === selectedId
+      })
+
+      if(selectedIndex === -1){
+        setSteps([newStep, ...steps])
+        return;
+      }
+
+      const arrayBefore = steps.slice(0,selectedIndex)
+      const arrayAfter = steps.slice(selectedIndex)
+
+      setSteps([...arrayBefore, newStep, ...arrayAfter])
+      return;
+    }
+
+    /**
+     * Add a step after the selected step
+     */
+    const addAfter = () => {
+      const newStep = createStep()
+
+    if(steps.length === 0){
+      setSteps([newStep])
+      return;
+    }
+
+    const selectedIndex = steps.findIndex((step)=> {
+      return step.id === selectedId
+    })
+
+    if(selectedIndex === -1 || selectedIndex === steps.length -1){
+      setSteps([...steps, newStep])
+      return;
+    }
+
+    const arrayBefore = steps.slice(0,selectedIndex + 1)
+    const arrayAfter = steps.slice(selectedIndex + 1)
+
+    setSteps([...arrayBefore, newStep, ...arrayAfter])
+    return;
+    }
+
+    /**
+     * delete a step
+     */
+    const deleteStep = () => {
+      const filteredArray = steps.filter((step) => {
+        return step.id !== selectedId
+      })
+
+      setSteps(filteredArray)
+    }
 
     const renderStep = ({item, index}) => {
 
@@ -67,6 +140,27 @@ export default RoutineEditor = ({routine}) => {
           renderItem={renderStep}
         />
 
+        <View style={styles.controlButtons}>
+          <TouchableOpacity
+            onPress={() => addBefore()}
+          >
+            <Text>Add Before</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => deleteStep()}
+          >
+            <Text>Delete Current</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => addAfter()}
+          >
+            <Text>Add After</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Modal */}
         <View style={styles.centered}>
           <Modal
             animationType="slide"
@@ -146,5 +240,12 @@ const styles = StyleSheet.create({
   list: {
     width: "100%",
     marginTop: 10,
+  },
+  controlButtons: {
+    flex: .25,
+    flexDirection: "row",
+    justifyContent: "space-around",
+    paddingTop: 20,
+    width: "100%"
   },
 })
