@@ -1,9 +1,9 @@
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import RoutinesPage from './components/RoutinesPage';
-import RoutineEditor from './components/RoutineEditor';
-import ActiveRoutine from './components/ActiveRoutine';
+import RoutinesPage from './components/routines/RoutinesPage';
+import RoutineEditor from './components/editRoutine/RoutineEditor';
+import ActiveRoutine from './components/activeRoutine/ActiveRoutine';
 
 const Stack = createNativeStackNavigator();
 

@@ -8,12 +8,12 @@ import {
   TouchableOpacity,
   View } from 'react-native';
 import RoutineCard from './RoutineCard'
-import SafeViewAndroid from '../helpers/SafeViewAndroid';
-import TitleText from './TitleText';
+import SafeViewAndroid from '../../helpers/SafeViewAndroid';
+import TitleText from '../common/TitleText';
 import { Ionicons } from '@expo/vector-icons';
 import { useAsyncStorage } from '@react-native-async-storage/async-storage';
 import { useEffect, useState } from 'react';
-import useRoutineStore from '../store/routineStore';
+import useRoutineStore from '../../store/routineStore';
 
 const dummyData = {
   "routines": [

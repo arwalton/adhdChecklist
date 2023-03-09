@@ -9,7 +9,7 @@ import {
   TextInput,
   TouchableOpacity,
   View} from 'react-native';
-import TitleText from './TitleText';
+import TitleText from '../common/TitleText';
 import EditRoutineStep from './EditRoutineStep';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -34,7 +34,7 @@ export default RoutineEditor = ({routine}) => {
     const createStep = () => {
       const uuid = uuidv4()
       return(
-        {id: uuid, title: "Example Step", duration: 30}
+        {id: uuid, title: "New Step", duration: 60}
       )
     }
 

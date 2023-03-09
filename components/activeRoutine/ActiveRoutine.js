@@ -7,9 +7,9 @@ import {
   TouchableOpacity,
   View} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import TitleText from './TitleText';
+import TitleText from '../common/TitleText';
 import ActiveRoutineStep from './ActiveRoutineStep';
-import TouchableIcon from './TouchableIcon';
+import TouchableIcon from '../common/TouchableIcon';
 
 export default ActiveRoutine = ({route, navigation}) => {
   const {routineName, routineSteps} = route.params;

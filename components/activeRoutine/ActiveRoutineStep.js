@@ -21,7 +21,7 @@ export default ActiveRoutineStep = ({
     const [displayFinalMessage, setDisplayFinalMessage] = useState(false)
 
     const playEndSound = async () => {
-        const { sound } = await Audio.Sound.createAsync(require('../assets/harp.mp3'));
+        const { sound } = await Audio.Sound.createAsync(require('../../assets/harp.mp3'));
         setEndSound(sound)
 
         await sound.playAsync()
