@@ -56,7 +56,7 @@ export default ActiveRoutine = ({route, navigation}) => {
           <TouchableIcon
             name="play"
             size={50}
-            color="#BAFF29"
+            color='#51c251'
             text="Play"
           >  
           </TouchableIcon>
