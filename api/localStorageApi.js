@@ -52,7 +52,7 @@ const { getItem, setItem } = useAsyncStorage("adhdChecklistRoutines");
  */
 export async function getRoutinesFromStorage() {
         const routinesFromStorage = await getItem()
-        return JSON.parse(routinesFromStorage).routines
+        return JSON.parse(routinesFromStorage)
     }
 
 /**
@@ -62,6 +62,5 @@ export async function getRoutinesFromStorage() {
  * @param {[]} newRoutines
  */
 export async function setRoutinesInStorage(newRoutines) {
-    console.log("newRoutines in setRoutinesInStorage", newRoutines)
     await setItem(JSON.stringify(newRoutines))
 }

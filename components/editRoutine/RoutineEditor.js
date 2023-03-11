@@ -11,25 +11,48 @@ import {
   View} from 'react-native';
 import TitleText from '../common/TitleText';
 import EditRoutineStep from './EditRoutineStep';
+import TouchableIcon from '../common/TouchableIcon';
 import { v4 as uuidv4 } from 'uuid';
+import { useNavigation } from '@react-navigation/native';
+import useRoutineStore from '../../store/routineStore';
+import { getRoutinesFromStorage, setRoutinesInStorage } from '../../api/localStorageApi';
 
 export default RoutineEditor = ({routine}) => {
 
+    const navigation = useNavigation()
+    const [isNewRoutine, setIsNewRoutine] = useState(true)
     const [titleText, setTitleText] = useState("New Routine")
     const [isEditTitle, setIsEditTitle] = useState(false)
-    const [titleStorage, setTitleStorage] = useState()
+    const [tmpTitleStorage, setTmpTitleStorage] = useState()
     const [selectedId, setSelectedId] = useState()
+    const [hasRenderedOnce, setHasRenderedOnce] = useState(false)
     const [steps, setSteps] = useState([
       {id: '1433d557-a71d-4363-8788-3e22dca4c889', title: "Example step1", duration: 30}, 
-      {id: 'd34da1fe-2f73-468e-81a5-c047a2ece06a', title: "Example step2", duration: 30}])
+      {id: 'd34da1fe-2f73-468e-81a5-c047a2ece06a', title: "Example step2", duration: 30}
+    ])
+    const routines = useRoutineStore((state) => state.routines)
+    const addRoutine = useRoutineStore((state) => state.addRoutine)
+    const setRoutines = useRoutineStore((state) => state.setRoutines)
+    const updateRoutine = useRoutineStore((state) => state.updateRoutine)
 
+    //Set up initial component
     useEffect(() => {
       if(routine){
         setTitleText(routine.name)
         setSteps(routine.steps)
+        setIsNewRoutine(false)
       }
-      setTitleStorage(titleText)
+      setTmpTitleStorage(titleText)
     }, [])
+
+    //
+    useEffect(() => {
+      if(hasRenderedOnce){
+        setRoutinesInStorage(routines)
+        navigation.navigate("My Routines")
+      }
+      setHasRenderedOnce(true)
+    }, [routines])
 
     const createStep = () => {
       const uuid = uuidv4()
@@ -71,25 +94,25 @@ export default RoutineEditor = ({routine}) => {
     const addAfter = () => {
       const newStep = createStep()
 
-    if(steps.length === 0){
-      setSteps([newStep])
+      if(steps.length === 0){
+        setSteps([newStep])
+        return;
+      }
+
+      const selectedIndex = steps.findIndex((step)=> {
+        return step.id === selectedId
+      })
+
+      if(selectedIndex === -1 || selectedIndex === steps.length -1){
+        setSteps([...steps, newStep])
+        return;
+      }
+
+      const arrayBefore = steps.slice(0,selectedIndex + 1)
+      const arrayAfter = steps.slice(selectedIndex + 1)
+
+      setSteps([...arrayBefore, newStep, ...arrayAfter])
       return;
-    }
-
-    const selectedIndex = steps.findIndex((step)=> {
-      return step.id === selectedId
-    })
-
-    if(selectedIndex === -1 || selectedIndex === steps.length -1){
-      setSteps([...steps, newStep])
-      return;
-    }
-
-    const arrayBefore = steps.slice(0,selectedIndex + 1)
-    const arrayAfter = steps.slice(selectedIndex + 1)
-
-    setSteps([...arrayBefore, newStep, ...arrayAfter])
-    return;
     }
 
     /**
@@ -101,6 +124,26 @@ export default RoutineEditor = ({routine}) => {
       })
 
       setSteps(filteredArray)
+    }
+
+    const handleSaveToStore = () => {
+      if(isNewRoutine){
+        const uuid = uuidv4()
+        const newRoutine = {
+          id: uuid,
+          name: titleText,
+          steps: steps
+        }
+        addRoutine(newRoutine)
+        return
+      }
+
+      const editedRoutine = {
+        id: routine.id,
+        name: titleText,
+        steps: steps
+      }
+      updateRoutine(editedRoutine)
     }
 
     const renderStep = ({item, index}) => {
@@ -141,22 +184,64 @@ export default RoutineEditor = ({routine}) => {
         />
 
         <View style={styles.controlButtons}>
+
           <TouchableOpacity
             onPress={() => addBefore()}
           >
-            <Text>Add Before</Text>
+            <TouchableIcon
+              name="add"
+              size={60}
+              text="Add before"
+              color="#f1ffe7"
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => deleteStep()}
           >
-            <Text>Delete Current</Text>
+            <TouchableIcon
+              name="remove-circle-outline"
+              size={60}
+              text="Delete step"
+              color="#E63946"
+            />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => addAfter()}
           >
-            <Text>Add After</Text>
+            <TouchableIcon
+              name="add"
+              size={60}
+              text="Add after"
+              color="#f1ffe7"
+            />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.controlButtons}>
+          <TouchableOpacity
+            style={{...styles.cancelButton, ...styles.confirmationButton}}
+            onPress ={() => {
+              navigation.navigate("My Routines")
+            }}
+          >
+            <View style={styles.centered}>
+              <Text style={styles.cancelText}>Cancel</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.controlButtons}>
+          <TouchableOpacity
+            style={{...styles.saveButton, ...styles.confirmationButton}}
+            onPress ={() => {
+              handleSaveToStore()
+            }}
+          >
+            <View style={styles.centered}>
+              <Text>Save</Text>
+            </View>
           </TouchableOpacity>
         </View>
 
@@ -176,7 +261,7 @@ export default RoutineEditor = ({routine}) => {
               onChangeText={setTitleText}
               onSubmitEditing={() => {
                 if(titleText.length > 0){
-                  setTitleStorage(titleText)
+                  setTmpTitleStorage(titleText)
                 }else{
                   setTitleText(titleStorage)
                 }
@@ -238,14 +323,36 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   list: {
+    height: "40%",
     width: "100%",
     marginTop: 10,
   },
   controlButtons: {
-    flex: .25,
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingTop: 20,
-    width: "100%"
+    paddingTop: 10,
+    marginTop: 10,
+    width: "100%",
+  },
+  confirmationButton: {
+    width: "100%",
+    height: 50,
+  },
+  cancelButton: {
+    borderWidth: 1,
+    borderColor: "#f1ffe7",
+    marginTop: 20,
+  },
+  cancelText: {
+    fontWeight: "400",
+    color: "#f1ffe7"
+  },
+  saveButton: {
+    borderWidth: 1,
+    borderColor: "#f1ffe7",
+    backgroundColor: '#51c251',
+  },
+  saveText: {
+    
   },
 })
