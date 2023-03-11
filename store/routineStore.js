@@ -18,18 +18,23 @@ const useRoutineStore = create((set) => ({
      * @param {*} routine - A routine to be added
      * @returns 
      */
-    addRoutine: (routineToAdd) => set((state) => ({
-        routines: [...state.routines, routineToAdd]
-    })),
+    addRoutine: (routineToAdd) => {
+        set((state) => ({
+            routines: [
+                ...state.routines,
+                routineToAdd
+            ],
+        }))
+    },
     /**
      * Remove a routine from state
      * 
-     * @param {*} routineNameToRemove - Name of the routine to remove
+     * @param {*} idToRemove - id of the routine to remove
      * @returns 
      */
-    removeRoutine: (routineNameToRemove) => set((state) => ({
+    removeRoutine: (idToRemove) => set((state) => ({
         routines: state.routines.filter(() => {
-            return routineNameToRemove !== routine.name
+            return idToRemove !== routine.id
         })
     })),
     /**
@@ -45,7 +50,7 @@ const useRoutineStore = create((set) => ({
      */
     updateRoutine: (routineToUpdate) => set((state) => ({
         routines: state.routines.map((routine) => {
-            if(routine.name === routineToUpdate.name){
+            if(routine.id === routineToUpdate.id){
                 return routineToUpdate
             }
             return routine
