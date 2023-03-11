@@ -14,7 +14,6 @@ export default EditRoutineStep = ({
 
     const [title, setTitle] = useState(step.title)
     const [duration, setDuration] = useState(step.duration)
-    const [tmpTime, setTmpTime] = useState(new Date(step.duration * 1000))
     const [minutes, setMinutes] = useState()
     const [seconds, setSeconds] = useState()
     const isActive = step.id === selectedId
@@ -25,7 +24,9 @@ export default EditRoutineStep = ({
 
 
     useEffect(()=> {
-        const newDuration = (Number(minutes) * 60) + Number(seconds)
+        const newMinutes = minutes ? Number(minutes) : 0
+        const newSeconds = seconds ? Number(seconds) : 0
+        const newDuration = newMinutes + newSeconds
         updateStep(title, newDuration)
     },[title, minutes, seconds])
 
@@ -40,6 +41,20 @@ export default EditRoutineStep = ({
             <Picker.Item label={index.toString()} value={index.toString()} key={"second" + index}/>
         )
     })
+
+    const calcMinutes = () => {
+        if(minutes){
+            return minutes
+        }
+        return Math.floor(duration/60)
+    }
+
+    const calcSeconds = () => {
+        if(seconds){
+            return seconds
+        }
+        return Math.floor(duration%60)
+    }
 
     return(
         <TouchableOpacity
@@ -58,26 +73,27 @@ export default EditRoutineStep = ({
                     />
                 </View>
                 <View 
-                    style={styles.inputContainer}
-                    pointerEvents={isActive ? "auto" : "none"}    
+                    style={styles.inputContainer}   
                 >
-                    <Text style={styles.inputText}>Minutes:</Text>
+                    <Text style={styles.inputText}>Minutes, currently {calcMinutes()}:</Text>
                     <Picker
                         style={styles.input}
+                        enabled={isActive}
                         selectedValue={minutes}
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={(itemValue, itemIndex) => {
                             setMinutes(itemValue)
-                        }
+                        }}
                     >
                         {pickerMinutes}
                     </Picker>
-                    <Text style={styles.inputText}>Seconds:</Text>
+                    <Text style={styles.inputText}>Seconds, currently {calcSeconds()}:</Text>
                     <Picker
                         style={styles.input}
+                        enabled={isActive}
                         selectedValue={seconds}   
-                        onValueChange={(itemValue, itemIndex) =>
+                        onValueChange={(itemValue, itemIndex) => {
                             setSeconds(itemValue)
-                        } 
+                        }}
                     >
                         {pickerSeconds}
                     </Picker>

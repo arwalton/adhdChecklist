@@ -36,7 +36,6 @@ export default RoutineCard = ({routine}) => {
     }
 
     const handleDuplicate = () => {
-        console.log("duplicate Pressed")
         const stepsWithNewId = steps.map((step) => {
             return {...step, id:uuidv4()}
         })
