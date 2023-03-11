@@ -41,7 +41,7 @@ export default RoutineCard = ({routine}) => {
                         });
                     }}
                 >
-                    <Ionicons name="play" size={50} color="#BAFF29" />
+                    <Ionicons name="play" size={50} color='#51c251' />
                 </TouchableOpacity>
             </View>
         </View>
