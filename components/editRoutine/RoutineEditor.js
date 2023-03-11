@@ -22,14 +22,13 @@ export default RoutineEditor = ({route}) => {
     const { routine } = route.params
     const navigation = useNavigation()
     const [isNewRoutine, setIsNewRoutine] = useState(true)
-    const [titleText, setTitleText] = useState("New Routine")
+    const [nameText, setNameText] = useState("New Routine")
     const [isEditTitle, setIsEditTitle] = useState(false)
-    const [tmpTitleStorage, setTmpTitleStorage] = useState()
+    const [tmpNameStorage, setTmpNameStorage] = useState()
     const [selectedId, setSelectedId] = useState()
     const [hasRenderedOnce, setHasRenderedOnce] = useState(false)
     const [steps, setSteps] = useState([
-      {id: '1433d557-a71d-4363-8788-3e22dca4c889', title: "Example step1", duration: 30}, 
-      {id: 'd34da1fe-2f73-468e-81a5-c047a2ece06a', title: "Example step2", duration: 30}
+      {id: uuidv4(), title: "Example step", duration: 30},
     ])
     const routines = useRoutineStore((state) => state.routines)
     const addRoutine = useRoutineStore((state) => state.addRoutine)
@@ -39,12 +38,12 @@ export default RoutineEditor = ({route}) => {
     //Set up initial component
     useEffect(() => {
       if(routine){
-        setTitleText(routine.name)
+        setNameText(routine.name)
         setSteps(routine.steps)
         setIsNewRoutine(false)
-        setTmpTitleStorage(routine.name)
+        setTmpNameStorage(routine.name)
       }else {
-        setTmpTitleStorage(titleText)
+        setTmpNameStorage(nameText)
       }
     }, [])
 
@@ -119,12 +118,44 @@ export default RoutineEditor = ({route}) => {
     }
 
     /**
+     * Update the selected step
+     */
+    const updateStep = (updatedTitle, updatedDuration) => {
+      if(!selectedId){
+        return;
+      }
+
+      const selectedIndex = steps.findIndex((step)=> {
+        return step.id === selectedId
+      })
+      const stepToUpdate = steps[selectedIndex]
+
+      const updatedStep = {
+        id: stepToUpdate.id,
+        title: updatedTitle,
+        duration: updatedDuration
+      }
+
+      const arrayBefore = steps.slice(0, selectedIndex)
+      if(selectedIndex === steps.length -1){
+        setSteps([...arrayBefore, updatedStep])
+        return
+      }
+
+      const arrayAfter = steps.slice(selectedIndex + 1)
+
+      setSteps([...arrayBefore, updatedStep, ...arrayAfter])
+      return
+    }
+
+    /**
      * delete a step
      */
     const deleteStep = () => {
       const filteredArray = steps.filter((step) => {
         return step.id !== selectedId
       })
+      setSelectedId(null)
 
       setSteps(filteredArray)
     }
@@ -134,16 +165,16 @@ export default RoutineEditor = ({route}) => {
         const uuid = uuidv4()
         const newRoutine = {
           id: uuid,
-          name: titleText,
+          name: nameText,
           steps: steps
         }
         addRoutine(newRoutine)
-        return
+        return;
       }
 
       const editedRoutine = {
         id: routine.id,
-        name: titleText,
+        name: nameText,
         steps: steps
       }
       updateRoutine(editedRoutine)
@@ -156,6 +187,8 @@ export default RoutineEditor = ({route}) => {
           step={item}
           key={"step" + index}
           selectedId={selectedId}
+          updateStep={updateStep}
+          updateRoutine={updateRoutine}
           onPress={() => {
             if(selectedId !== item.id){
               setSelectedId(item.id)
@@ -175,7 +208,7 @@ export default RoutineEditor = ({route}) => {
           }}
         >
           
-          <TitleText>{titleText}</TitleText>
+          <TitleText>{nameText}</TitleText>
         </TouchableOpacity>
 
         <FlatList
@@ -260,20 +293,20 @@ export default RoutineEditor = ({route}) => {
           <View style={styles.modal}>
             <TextInput
               style={styles.input}
-              value={titleText}
-              onChangeText={setTitleText}
+              value={nameText}
+              onChangeText={setNameText}
               onSubmitEditing={() => {
-                if(titleText.length > 0){
-                  setTmpTitleStorage(titleText)
+                if(nameText.length > 0){
+                  setTmpNameStorage(nameText)
                 }else{
-                  setTitleText(tmpTitleStorage)
+                  setNameText(tmpNameStorage)
                 }
                 setIsEditTitle(false)
               }}
             />
             <TouchableOpacity
               onPress={() => {
-                setTitleText(tmpTitleStorage)
+                setNameText(tmpNameStorage)
                 setIsEditTitle(false)}
               }
             >
@@ -326,7 +359,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   list: {
-    height: "40%",
+    height: "25%",
     width: "100%",
     marginTop: 10,
   },

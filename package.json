@@ -23,7 +23,8 @@
     "react-native-screens": "~3.18.0",
     "react-native-svg": "13.4.0",
     "uuid": "^9.0.0",
-    "zustand": "^4.3.3"
+    "zustand": "^4.3.3",
+    "@react-native-picker/picker": "2.4.8"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
