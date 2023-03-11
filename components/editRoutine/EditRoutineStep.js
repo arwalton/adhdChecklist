@@ -1,6 +1,5 @@
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
 import { useEffect } from 'react';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
