@@ -17,8 +17,9 @@ import { useNavigation } from '@react-navigation/native';
 import useRoutineStore from '../../store/routineStore';
 import { getRoutinesFromStorage, setRoutinesInStorage } from '../../api/localStorageApi';
 
-export default RoutineEditor = ({routine}) => {
+export default RoutineEditor = ({route}) => {
 
+    const { routine } = route.params
     const navigation = useNavigation()
     const [isNewRoutine, setIsNewRoutine] = useState(true)
     const [titleText, setTitleText] = useState("New Routine")
@@ -41,8 +42,10 @@ export default RoutineEditor = ({routine}) => {
         setTitleText(routine.name)
         setSteps(routine.steps)
         setIsNewRoutine(false)
+        setTmpTitleStorage(routine.name)
+      }else {
+        setTmpTitleStorage(titleText)
       }
-      setTmpTitleStorage(titleText)
     }, [])
 
     //
@@ -263,14 +266,14 @@ export default RoutineEditor = ({routine}) => {
                 if(titleText.length > 0){
                   setTmpTitleStorage(titleText)
                 }else{
-                  setTitleText(titleStorage)
+                  setTitleText(tmpTitleStorage)
                 }
                 setIsEditTitle(false)
               }}
             />
             <TouchableOpacity
               onPress={() => {
-                setTitleText(titleStorage)
+                setTitleText(tmpTitleStorage)
                 setIsEditTitle(false)}
               }
             >

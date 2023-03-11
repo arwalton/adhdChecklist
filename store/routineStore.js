@@ -33,7 +33,7 @@ const useRoutineStore = create((set) => ({
      * @returns 
      */
     removeRoutine: (idToRemove) => set((state) => ({
-        routines: state.routines.filter(() => {
+        routines: state.routines.filter((routine) => {
             return idToRemove !== routine.id
         })
     })),

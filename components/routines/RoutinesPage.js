@@ -14,6 +14,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import useRoutineStore from '../../store/routineStore';
 import { getRoutinesFromStorage } from '../../api/localStorageApi';
+import { setRoutinesInStorage } from '../../api/localStorageApi';
 
 const iconWidth = 70;
 
@@ -37,6 +38,10 @@ export default RoutinesPage = ({navigation})=>{
     .catch(console.error)
   },[])
 
+  useEffect(() => {
+    setRoutinesInStorage(routines)
+  },[routines])
+
   return (
       <View style={styles.container}>
         <FlatList
@@ -52,7 +57,7 @@ export default RoutinesPage = ({navigation})=>{
         <View style={styles.addContainer}>
           <TouchableOpacity
             style={styles.opacity}
-            onPress={()=>{navigation.navigate("Routine Editor")}}
+            onPress={()=>{navigation.navigate("Routine Editor", {routine: null})}}
           >
             <Ionicons name="add" size={iconWidth} color='#51c251' />
           </TouchableOpacity>
