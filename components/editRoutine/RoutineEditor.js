@@ -15,7 +15,7 @@ import TouchableIcon from '../common/TouchableIcon';
 import { v4 as uuidv4 } from 'uuid';
 import { useNavigation } from '@react-navigation/native';
 import useRoutineStore from '../../store/routineStore';
-import { getRoutinesFromStorage, setRoutinesInStorage } from '../../api/localStorageApi';
+import {  setRoutinesInStorage } from '../../api/localStorageApi'
 
 export default RoutineEditor = ({route}) => {
 

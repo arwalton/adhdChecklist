@@ -43,24 +43,27 @@ const dummyData = {
         ]}
     ]
 }
+export const getRoutinesFromStorage = async () => {
 
+    const { getItem, setItem } = useAsyncStorage("adhdChecklistRoutines");
 
-const { getItem, setItem } = useAsyncStorage("adhdChecklistRoutines");
-
-/**
- * Returns the routines saved in local storage
- */
-export async function getRoutinesFromStorage() {
+    /**
+     * Returns the routines saved in local storage
+     */
         const routinesFromStorage = await getItem()
         return JSON.parse(routinesFromStorage)
-    }
+}
 
-/**
- * Sets routines in local storage.
- * newRoutines will be converted to JSON string within this function.
- * It should be an array of routine objects
- * @param {[]} newRoutines
- */
-export async function setRoutinesInStorage(newRoutines) {
+export const setRoutinesInStorage = async (newRoutines) => {
+
+    const { getItem, setItem } = useAsyncStorage("adhdChecklistRoutines");
+
+    /**
+     * Sets routines in local storage.
+     * newRoutines will be converted to JSON string within this function.
+     * It should be an array of routine objects
+     * @param {[]} newRoutines
+     */
     await setItem(JSON.stringify(newRoutines))
+
 }

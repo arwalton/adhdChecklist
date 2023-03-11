@@ -13,7 +13,7 @@ import TitleText from '../common/TitleText';
 import { Ionicons } from '@expo/vector-icons';
 import { useEffect, useState } from 'react';
 import useRoutineStore from '../../store/routineStore';
-import { getRoutinesFromStorage } from '../../api/localStorageApi';
+import{ getRoutinesFromStorage } from '../../api/localStorageApi';
 import { setRoutinesInStorage } from '../../api/localStorageApi';
 
 const iconWidth = 70;
